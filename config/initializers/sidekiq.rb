@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+redis_url = ENV.fetch("REDIS_URL", "redis://localhost:6379/0")
+sidekiq_config = YAML.load_file(Rails.root.join("config", "sidekiq.yml"))
+
+Sidekiq.configure_server do |config|
+  config.redis = {url: redis_url, size: sidekiq_config[:concurrency]}
+  config.logger.level = Logger::WARN
+
+  schedule_file = "config/schedule.yml"
+  if File.exist?(schedule_file)
+    Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
+  end
+end
+
+Sidekiq.configure_client do |config|
+  config.redis = {url: redis_url, size: sidekiq_config[:concurrency]}
+end

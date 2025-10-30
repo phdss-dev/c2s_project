@@ -1,0 +1,69 @@
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+
+        <div class="text-center mb-5">
+          <h1 class="h4 fw-bold text-dark">Enviar Arquivo .EML</h1>
+          <p class="text-muted small">Selecione o arquivo para processar e cadastrar clientes.</p>
+        </div>
+
+        <% if flash[:notice] %>
+          <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <%= flash[:notice] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% elsif flash[:alert] %>
+          <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <%= flash[:alert] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
+
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+
+            <%= form_with url: process_emails_path, local: true, multipart: true do |form| %>
+              <div class="mb-4">
+                <label for="eml_file" class="form-label fw-semibold">
+                  Arquivo .eml
+                </label>
+                <%= form.file_field :eml_file,
+                     class: "form-control form-control-lg",
+                     accept: ".eml",
+                     required: true %>
+              </div>
+
+              <div class="d-grid">
+                <%= form.submit "Enviar e Processar",
+                     class: "btn btn-primary btn-lg fw-semibold" %>
+              </div>
+            <% end %>
+
+          </div>
+
+          <div class="card-footer bg-transparent border-top pt-3">
+            <div class="row g-2 text-center">
+              <div class="col-6">
+                <%= link_to customers_path, class: "btn btn-outline-secondary w-100 small py-2" do %>
+                  Ver Logs
+                <% end %>
+              </div>
+              <div class="col-6">
+                <%= link_to customers_path, class: "btn btn-outline-primary w-100 small py-2" do %>
+                  Ver Clientes
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <small class="text-muted">Sistema de Importação • v1.0</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
