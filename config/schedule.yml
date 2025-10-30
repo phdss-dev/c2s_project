@@ -1,0 +1,7 @@
+cleanup_processing_logs_job:
+  cron: "*/5 * * * *"
+  class: "CleanupProcessingLogsJob"
+  queue: "default"
+  description: "Job para realizar a limpeza periódica dos logs."
+
+  

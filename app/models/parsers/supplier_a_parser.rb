@@ -39,7 +39,7 @@ module Parsers
     end
 
     def extract_product_code
-      match = @email_data.match(/\bproduto\b[\s\w]*?\b([A-Z0-9-]+)\b/i)
+      match = @email.subject.match(/([A-Z]{2,}[0-9]+)/i)
       match && match[1].to_s.strip
     end
   end

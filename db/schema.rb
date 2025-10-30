@@ -62,9 +62,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_29_002235) do
   create_table "processing_logs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "eml_file_id", null: false
-    t.text "errors"
     t.text "extracted_data"
     t.datetime "processed_at"
+    t.text "processing_error"
     t.integer "status"
     t.datetime "updated_at", null: false
     t.index ["eml_file_id"], name: "index_processing_logs_on_eml_file_id"

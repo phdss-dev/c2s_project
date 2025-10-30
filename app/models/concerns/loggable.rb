@@ -5,16 +5,15 @@ module Loggable
   def create_log(
     status:,
     extracted_data: {},
-    errors: nil
+    error: nil
   )
     raise ArgumentError, "eml_file is required" unless defined?(@eml_file) && @eml_file
 
     ActiveRecord::Base.transaction do
       ProcessingLog.create!(
         eml_file: @eml_file,
-        status: status,
         extracted_data: extracted_data.to_json,
-        errors: errors,
+        processing_error: error,
         processed_at: Time.current
       )
 

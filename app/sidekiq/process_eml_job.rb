@@ -1,4 +1,3 @@
-# app/jobs/process_eml_job.rb
 class ProcessEmlJob
   include Sidekiq::Job
 

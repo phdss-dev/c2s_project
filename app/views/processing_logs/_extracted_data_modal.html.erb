@@ -1,0 +1,16 @@
+<div class="modal fade" id="extracted_data-modal-<%= log.id %>" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Dados Extraídos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="language-json"><%= JSON.pretty_generate(JSON.parse(log.extracted_data)) rescue log.extracted_data %></code></pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

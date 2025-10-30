@@ -19,6 +19,36 @@ services:
     volumes:
       - redis_data:/data
 
+  loki:
+    image: grafana/loki:2.9.2
+    ports:
+      - "3100:3100"
+    volumes:
+      - "./config/loki_config.yml:/etc/loki/loki_config.yaml"
+    command: -config.file=/etc/loki/loki_config.yaml
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    volumes:
+      - /var/log:/var/log
+      - "./config/promtail_config.yml:/etc/promtail/promtail_config.yml"
+      - "./log/development.log:/var/rails_log"
+    command: -config.file=/etc/promtail/promtail_config.yml
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:9.5.2
+    ports:
+      - "3030:3030"
+    user: root
+    volumes:
+      - "~/.docker/grafana_data/9:/var/lib/grafana"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: c2s@grafana
+      GF_SERVER_HTTP_PORT: "3030"
+
+
 volumes:
   postgres_data:
   redis_data:

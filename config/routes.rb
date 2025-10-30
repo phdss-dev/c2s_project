@@ -15,9 +15,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :process_emails, only: [:new, :create]
+  root "process_eml#new"
 
-  resources :customers, only: [:index, :show]
+  post "/process_eml", to: "process_eml#create", as: "process_eml"
 
-  resources :processing_logs, only: [:index, :show]
+  resources :customers, only: [:index]
+  resources :processing_logs, only: [:index]
 end

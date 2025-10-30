@@ -1,0 +1,85 @@
+<div class="min-vh-100 bg-light py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="text-center mb-5">
+          <h1 class="h4 fw-bold text-dark">Logs de Processamento</h1>
+          <p class="text-muted small">Histórico de arquivos .eml processados, incluindo sucessos e falhas.</p>
+        </div>
+        <%= render "/shared/flash" %>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="text-nowrap">Arquivo</th>
+                    <th class="text-nowrap">Status</th>
+                    <th class="text-nowrap">Dados extraídos</th>
+                    <th class="text-nowrap">Erro</th>
+                    <th class="text-end text-nowrap">Processado em</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if @processing_logs.any? %>
+                    <% @processing_logs.each do |log| %>
+                      <tr>
+                        <td class="fw-semibold text-truncate" style="max-width: 180px;">
+                          <%= log.eml_file.file.filename.to_s if log.eml_file.file.attached? %>
+                        </td>
+                        <td class="text-nowrap">
+                          <% if log.eml_file.status == "success" %>
+                            <span class="badge bg-success-subtle text-success d-flex align-items-center gap-1">
+                              <i class="bi bi-check-circle-fill"></i> Sucesso
+                            </span>
+                          <% else %>
+                            <span class="badge bg-danger-subtle text-danger d-flex align-items-center gap-1">
+                              <i class="bi bi-x-circle-fill"></i> Falha
+                            </span>
+                          <% end %>
+                        </td>
+                        <td class="small">
+                          <% if log.extracted_data.present? %>
+                            <button type="button" class="btn btn-link btn-sm p-0 text-start text-decoration-none" data-bs-toggle="modal" data-bs-target="#extracted_data-modal-<%= log.id %>">
+                              Visualizar detalhes
+                            </button>
+                          <% else %>
+                            <em class="text-muted">-</em>
+                          <% end %>
+                        </td>
+                        <td class="text-danger small text-truncate" style="max-width: 200px;">
+                          <% if log.processing_error.present? %>
+                            <%= truncate(log.processing_error, length: 80) %>
+                          <% else %>
+                            <em class="text-muted">Nenhum</em>
+                          <% end %>
+                        </td>
+                        <%= render "extracted_data_modal", log: log%>
+                        <td class="text-end text-muted small text-nowrap">
+                          <%= l(log.processed_at, format: :short) if log.processed_at %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% else %>
+                    <tr>
+                      <td colspan="5" class="text-center py-5 text-muted">
+                        <i class="bi bi-activity display-6 d-block mb-3"></i>
+                        Nenhum log de processamento encontrado.
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent border-top d-flex justify-content-between align-items-center py-3">
+            <small class="text-muted">
+              Total: <strong><%= @processing_logs.count %></strong> log(s)
+            </small>
+            <%= link_to "Voltar ao Upload", root_path, class: "btn btn-outline-secondary btn-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

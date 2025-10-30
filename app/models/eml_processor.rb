@@ -17,7 +17,7 @@ class EmlProcessor
       Customer.create!(data)
       log_processing_success(data)
     else
-      log_processing_failure("Falta contato (email ou telefone)")
+      log_processing_failure("Falta contato (email ou telefone)", data)
     end
   rescue => e
     Rails.logger.warn("Error during eml file processing: #{e.message}")

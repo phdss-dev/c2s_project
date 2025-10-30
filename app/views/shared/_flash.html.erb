@@ -1,0 +1,13 @@
+<% if flash.present? %>
+  <% flash.each do |flash_type, message| %>
+    <% next if message.blank? %>
+    <div class="alert alert-<%= bootstrap_class_for(flash_type) %> alert-dismissible fade show" role="alert">
+      <% if message.is_a?(Array) %>
+        <%= error_list(message) %>
+      <% else %>
+        <%= message %>
+      <% end %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% end %>
+<% end %>
