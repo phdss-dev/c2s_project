@@ -127,21 +127,13 @@ ruby script/generate_expected.rb
 bundle exec rspec
 ```
 
-Cobertura:
-- [x] Processador escolhe parser correto
-- [x] Parsers extraem dados corretamente
-- [x] Falha quando não há contato
-- [x] Worker enfileira e processa
-- [x] Criação de logs de sucesso e falha
----
-
 ## Logs e Monitoramento
-Em relação aos logs e monitoramentos, cobri dois tipos nesse projeto. Podemos acompanhar os logs relacionados ao processamentos na própria aplicação. E podemos acompanhar os logs do Rails e do sistema através do grafana, para isso basta acessar: `http://localhost:3030`. Fazer login com as credenciais, user: `admin` e senha: `c2s@grafana`.
+Em relação aos logs e monitoramentos, cobri dois tipos nesse projeto. Podemos acompanhar os logs relacionados ao processamentos na própria aplicação e também acompanhar os logs do Rails e do sistema através do Grafana, para isso basta acessar: `http://localhost:3030`. Fazer login com as credenciais, user: `admin` e senha: `c2s@grafana`.
 
 Será necessários os seguintes passos:
 
 1. Configurar uma "data source" que nesse caso será o loki.
-Para isso abra o menu lateral, selecione `connections`
+Para isso abra o menu lateral, selecione `connections` e crie uma conexão com o Loki
 * como os serviços estão rodando no docker, basta apontar a url do data source para: http://nome_do_container_loki:3100
 2. Com a conexão criada, vá na opção `Dashboard`, depois em `New` e importe o dashboard de código `13639`.
 3. Ainda na tela de criação do dashboard, selecione o Loki como datasource.

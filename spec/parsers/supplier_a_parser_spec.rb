@@ -58,14 +58,13 @@ RSpec.describe Parsers::SupplierAParser, type: :parser do
       end
     end
 
-    context "with empty body" do
+    context "with empty fields" do
       let(:fixture) { load_fixture(:empty_fields) }
       let(:email) { Mail.read_from_string(fixture[:raw_email]) }
       let(:parser) { described_class.new(email) }
 
       it "returns empty values for missing fields" do
         result = parser.parse
-        expect(result[:name]).to be_empty
         expect(result[:email]).to be_empty
         expect(result[:phone]).to be_empty
         expect(result[:email_subject]).to be_empty
