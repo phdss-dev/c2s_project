@@ -30,7 +30,7 @@ module Parsers
     end
 
     def extract_phone
-      match = @email_data.match(/(\+?\d[\d\s\-().]{8,}\d)/)
+      match = @email_data.match(/(\+?\d{0,2}\s?\(?\d{2}\)?\s?\d{4,5}-?\d{4})/)
       match ? match[1].gsub(/\D/, "").to_s : ""
     end
 

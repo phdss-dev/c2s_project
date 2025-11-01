@@ -5,20 +5,17 @@
 - [Visão Geral](#visão-geral)
 - [Arquitetura](#arquitetura)
 - [Pré-requisitos](#pré-requisitos)
-- [Instalação e Execução (Docker)](#instalação-e-execução-docker)
-- [Upload de Arquivo .eml](#upload-de-arquivo-eml)
-- [Visualizar Clientes](#visualizar-clientes)
-- [Visualizar Logs de Processamento](#visualizar-logs-de-processamento)
+- [Instalação e Execução](#instalação-e-execução)
+- [Uso do sistema](#uso-do-sistema)
 - [Testes](#testes)
 - [Logs e Monitoramento](#logs-e-monitoramento)
-- [Limpeza de Logs](#limpeza-de-logs)
 - [Vídeo Explicativo](#vídeo-explicativo)
 
 ---
 
 ## Visão Geral
 
-Este projeto é um sistema Rails que processa arquivos `.eml` de diferentes remetentes (Fornecedor A e Parceiro B), extrai informações de contato e produto, cria registros de clientes e mantém logs detalhados de todos os processamentos.
+Este projeto é um sistema Rails que processa arquivos `.eml` de diferentes remetentes, extrai informações e cria registros de clientes e mantém logs detalhados de todos os processamentos.
 
 ---
 
@@ -60,7 +57,7 @@ app/
 
 ---
 
-## Instalação e Execução (Docker)
+## Instalação e Execução
 
 ```bash
 # 1. Clone o repositório
@@ -77,10 +74,12 @@ rails db:create
 rails db:migrate
 
 # 4. Rode os testes
+ruby script/generate_expected.rb #rode antes dos testes
 bundle exec rspec
 
-# 5. Rodando a aplicação
+# 5. Rodando a aplicação rails e o sidekiq
 rails server
+bundle exec sidekiq
 ```
 
 Acesse: [http://localhost:3000]
@@ -104,7 +103,7 @@ Acesse: [http://localhost:3000]
 
 1. Acesse `http://localhost:3000`
 2. Selecione um arquivo `.eml` (ex: da pasta `spec/emails/`)
-3. Clique em **"Processar E-mail"**
+3. Clique em **"Enviar e Processar**
 
 > O arquivo será salvo, enfileirado no Sidekiq e processado em background.
 
@@ -149,23 +148,10 @@ Para isso abra o menu lateral, selecione `connections`
 4. Pronto. Isso deverá bastar para que você acesse os logs no dashboard.
 ---
 
-## Limpeza de Logs
+### Limpeza de Logs
 
 Tarefa agendada através do Sidekiq Cron
 Executada por padrão a cada 10 minutos, caso deseje alterar, pode ser feito atravès do arquivo `schedule.yml`
-
----
-
-## CI/CD
-
-Configurado com **GitHub Actions** (`.github/workflows/ci.yml`):
-
-```yaml
-- name: Testes
-  run: bundle exec rspec
-```
-
-Executa em todo `push` e `pull request`.
 
 ---
 

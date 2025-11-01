@@ -1,6 +1,5 @@
 class Customer < ApplicationRecord
   validates :email, format: {with: URI::MailTo::EMAIL_REGEXP}, allow_blank: true
-  validates :phone, format: {with: /\A\+\d{10,15}\z/}, allow_blank: true
   validate :has_contact_info
 
   private
