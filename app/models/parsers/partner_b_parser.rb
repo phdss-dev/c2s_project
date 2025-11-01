@@ -22,11 +22,11 @@ module Parsers
     private
 
     def extract_name
-      @email_data[/^(?:Cliente|Nome(?: completo| do cliente)?)[\s:–-]+(.+)$/i, 1]&.strip
+      @email_data[/^(?:Cliente|Nome(?:\s+completo|\s+do\s+cliente)?)\s*[:–-]?\s*([A-Za-zÀ-Úà-ú\s.'-]+)$/im, 1]&.strip || ""
     end
 
     def extract_email
-      @email_data[/(?:E-?mail(?:\s*de\s*contato)?)[:-]\s*([^\n\r]+)/i, 1].to_s.strip
+      @email_data[/^\s*E-?mail\s*[:-]?\s*\n?\s*([^\s@]+@[^\s@]+\.[^\s@]+)/i, 1]&.strip || ""
     end
 
     def extract_phone
@@ -35,11 +35,11 @@ module Parsers
     end
 
     def extract_subject
-      @email.subject
+      @email.subject || ""
     end
 
     def extract_product_code
-      match = @email.subject.match(/([A-Z]+-\d+)/i)
+      match = @email.subject&.match(/([A-Z]+-\d+)/i)
       match && match[1].to_s.strip
     end
   end

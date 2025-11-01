@@ -121,8 +121,10 @@ Acesse: [http://localhost:3000]
 ---
 
 ## Testes
+Antes de rodar os testes rode o seguinte script para gerar os arquivos "expected".
 
 ```bash
+ruby script/generate_expected.rb
 bundle exec rspec
 ```
 
@@ -131,8 +133,7 @@ Cobertura:
 - [x] Parsers extraem dados corretamente
 - [x] Falha quando não há contato
 - [x] Worker enfileira e processa
-- [x] Upload via interface
-- [x] Logs são criados em sucesso e falha
+- [x] Criação de logs de sucesso e falha
 ---
 
 ## Logs e Monitoramento

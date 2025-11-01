@@ -65,7 +65,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_29_002235) do
     t.text "extracted_data"
     t.datetime "processed_at"
     t.text "processing_error"
-    t.integer "status"
     t.datetime "updated_at", null: false
     t.index ["eml_file_id"], name: "index_processing_logs_on_eml_file_id"
   end

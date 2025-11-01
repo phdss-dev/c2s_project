@@ -7,11 +7,11 @@ class ProcessEmlController < ApplicationController
     @eml_file.file.attach(params[:eml_file])
 
     if @eml_file.save
-      flash.now[:notice] = "Arquivo recebido. O processamento será iniciado em segundo plano."
+      flash[:notice] = "Arquivo recebido. O processamento será iniciado em segundo plano."
+      render :new, status: :ok
     else
-      flash.now[:alert] = @eml_file.errors.full_messages
+      flash[:alert] = @eml_file.errors.full_messages.join(", ")
+      render :new, status: :unprocessable_content
     end
-
-    render :new
   end
 end
